@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>com.nezhraba.foldtodefaults</id>
+    <name>Fold to Defaults</name>
+    <vendor>Oleksandr Boiko</vendor>
+
+    <description><![CDATA[
+        Adds the <b>Fold to Defaults</b> editor action: it resets the folding of the current file to the
+        state a file gets on first open according to <i>Settings | Editor | General | Code Folding</i>,
+        discarding manual expand/collapse changes.
+        <p>
+        Find it in <i>Code | Folding</i> and in the editor context menu under <i>Folding</i>.
+        No shortcut is assigned by default; bind one in <i>Settings | Keymap</i>.
+        </p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <actions>
+        <action id="FoldToDefaults"
+                class="com.nezhraba.foldtodefaults.FoldToDefaultsAction"
+                text="Fold to Defaults"
+                description="Reset folding of the current file to the defaults from Settings | Editor | General | Code Folding">
+            <add-to-group group-id="FoldingGroup" anchor="after" relative-to-action="ExpandAllToLevel"/>
+        </action>
+    </actions>
+</idea-plugin>
