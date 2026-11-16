@@ -48,14 +48,14 @@ from there through a custom plugin repository:
 1. Copy the address of the link [updatePlugins.xml](../../releases/latest/download/updatePlugins.xml)
    (right-click, *Copy Link Address*).
 2. Add it in *Settings | Plugins | ⚙ | Manage Plugin Repositories…*.
-3. Search for **Fold to Defaults** on the *Marketplace* tab, install it, and restart the IDE.
+3. Search for **Fold to Defaults** on the *Marketplace* tab, and install it.
 
 New releases then show up as regular plugin updates.
 
 ### From disk (local build)
 
-Build the zip (see [Build](#build)), then *Settings | Plugins | ⚙ | Install Plugin from Disk…*, pick the zip
-from `build/distributions/`, and restart the IDE.
+Build the zip (see [Build](#build)), then *Settings | Plugins | ⚙ | Install Plugin from Disk…*, and pick the zip
+from `build/distributions/`.
 
 A copy installed from disk gets no updates. If the GitHub repository is also configured, the IDE shows
 "Unable to identify where Fold to Defaults was installed from": use the notification's
