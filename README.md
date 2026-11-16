@@ -40,20 +40,28 @@ export GRADLE_USER_HOME="$PWD/.gradle-home"   # git-ignored; about 6 GB after th
 
 ## Install
 
-*Settings | Plugins | ⚙ | Install Plugin from Disk…*, pick the zip from `build/distributions/`, restart the IDE.
+### From GitHub (recommended, with automatic updates)
 
-## Updates
+Releases are published on [GitHub Releases](../../releases), and the IDE can install and update the plugin
+from there through a custom plugin repository:
 
-Releases are published on [GitHub Releases](../../releases), and the IDE can
-update the plugin from there through a custom plugin repository.
+1. Copy the address of the link [updatePlugins.xml](../../releases/latest/download/updatePlugins.xml)
+   (right-click, *Copy Link Address*).
+2. Add it in *Settings | Plugins | ⚙ | Manage Plugin Repositories…*.
+3. Search for **Fold to Defaults** on the *Marketplace* tab, install it, and restart the IDE.
 
-To receive updates, copy the address of the link [updatePlugins.xml](../../releases/latest/download/updatePlugins.xml)
-(right-click, *Copy Link Address*) and add it in *Settings | Plugins | ⚙ | Manage Plugin Repositories…*.
+New releases then show up as regular plugin updates.
 
-A copy installed from disk shows "Unable to identify where Fold to Defaults was installed from": use the
-notification's *Choose where to get updates from* link and select this repository.
+### From disk (local build)
 
-### Releasing
+Build the zip (see [Build](#build)), then *Settings | Plugins | ⚙ | Install Plugin from Disk…*, pick the zip
+from `build/distributions/`, and restart the IDE.
+
+A copy installed from disk gets no updates. If the GitHub repository is also configured, the IDE shows
+"Unable to identify where Fold to Defaults was installed from": use the notification's
+*Choose where to get updates from* link and select that repository.
+
+## Releasing
 
 Push a tag of the form `vX.Y.Z`:
 
