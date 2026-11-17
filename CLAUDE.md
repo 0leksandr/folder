@@ -34,7 +34,7 @@ The whole implementation is `FoldToDefaultsAction.kt`. Key design points that ar
 - Regions in a group are set together: the platform expands the whole group if any member is expanded by default.
 - `update()` runs on BGT and only checks data-context entries (editor and PSI file present).
 
-`SettingsHint.kt` shows a one-time notification (flag in application-level `PropertiesComponent`) pointing to the Code Folding settings page, since some languages (e.g. PHP) ignore the generic options and have their own section there. It fires from a `ProjectActivity` (install + restart) and a `DynamicPluginListener` (install without restart, where startup activities don't run). The page is selected by configurable id `editor.preferences.folding`, because the `String` overload of `showSettingsDialog` matches the localized display name.
+`SettingsHint.kt` shows a one-time, application-level notification (a project-level one appears only in that project's window and was missed with several projects open; the show-once flag is in application-level `PropertiesComponent`) pointing to the Code Folding settings page, since some languages (e.g. PHP) ignore the generic options and have their own section there. It fires from a `ProjectActivity` (install + restart) and a `DynamicPluginListener` (install without restart, where startup activities don't run). The page is selected by configurable id `editor.preferences.folding`, because the `String` overload of `showSettingsDialog` matches the localized display name.
 
 ## Build/test notes
 

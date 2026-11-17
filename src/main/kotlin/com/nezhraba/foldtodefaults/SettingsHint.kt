@@ -10,7 +10,6 @@ import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.ProjectManager
 import com.intellij.openapi.startup.ProjectActivity
 import java.util.function.Predicate
 
@@ -22,9 +21,12 @@ private const val FOLDING_CONFIGURABLE_ID = "editor.preferences.folding"
 /**
  * Tells the user, once per IDE installation, where the defaults come from. Some languages (PHP, for
  * example) ignore the generic options and have their own section on that settings page.
+ *
+ * The notification is application-level: a project-level one shows only in that project's window, which
+ * is easy to miss when several projects are open.
  */
 @Synchronized
-internal fun showSettingsHintOnce(project: Project?) {
+internal fun showSettingsHintOnce() {
     val properties = PropertiesComponent.getInstance()
     if (properties.isTrueValue(SETTINGS_HINT_SHOWN_KEY)) return
     properties.setValue(SETTINGS_HINT_SHOWN_KEY, true)
@@ -36,12 +38,13 @@ internal fun showSettingsHintOnce(project: Project?) {
                 "Some languages, such as PHP, have their own section there.",
             NotificationType.INFORMATION,
         )
-        .addAction(NotificationAction.createSimpleExpiring("Open Code Folding Settings") {
+        .addAction(NotificationAction.create("Open Code Folding Settings") { e, notification ->
+            notification.expire()
             // Select by id: the String overload of showSettingsDialog matches the localized display name.
             ShowSettingsUtil.getInstance()
-                .showSettingsDialog(project, Predicate(::isFoldingConfigurable), null)
+                .showSettingsDialog(e.project, Predicate(::isFoldingConfigurable), null)
         })
-        .notify(project)
+        .notify(null)
 }
 
 internal fun isFoldingConfigurable(configurable: Configurable) =
@@ -49,13 +52,13 @@ internal fun isFoldingConfigurable(configurable: Configurable) =
 
 /** Covers installation followed by a restart. */
 internal class SettingsHintStartupActivity : ProjectActivity {
-    override suspend fun execute(project: Project) = showSettingsHintOnce(project)
+    override suspend fun execute(project: Project) = showSettingsHintOnce()
 }
 
 /** Covers installation without a restart, where startup activities don't run for open projects. */
 internal class SettingsHintPluginListener : DynamicPluginListener {
     override fun pluginLoaded(pluginDescriptor: IdeaPluginDescriptor) {
         if (pluginDescriptor.pluginId.idString != PLUGIN_ID) return
-        showSettingsHintOnce(ProjectManager.getInstance().openProjects.firstOrNull())
+        showSettingsHintOnce()
     }
 }
